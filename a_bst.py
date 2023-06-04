@@ -1,13 +1,11 @@
-# bst.py
-## author - nick s.
-## .... this was supposed to be your lab 8, but now you need to write less code :)
+# a_bst.py
+## author - Gregory L.
 
 
-# given to students
 class Node:
+    value: any
     left: any
     right: any
-    value: any
 
     def __init__(self, val, left=None, right=None):
         self.left = left
@@ -15,24 +13,22 @@ class Node:
         self.value = val
 
 
-# given to students
 class Tree:
     root: Node
     def __init__(self, root=None):
         self.root = root
 
 
-# NOT given to students
 def initialize() -> Tree:
-    return None # TODO
+    return Tree(None)
 
 
-# NOT given to students
 def isEmpty(tree: Tree) -> bool:
-    return None # TODO
+    if tree.root is None:
+        return True
+    return False
 
 
-# given to the students
 def height(root: Node) -> int:
     if root is None:
         return 0
@@ -42,7 +38,6 @@ def height(root: Node) -> int:
         return max(h_left, h_right) + 1
 
 
-# given to the students
 def preorder_traversal(tree: Node, level:int=0):
     if level == 0:
         print('pre order traversal')
@@ -52,54 +47,51 @@ def preorder_traversal(tree: Node, level:int=0):
         preorder_traversal(tree.right, level+1)
 
 
-# NOT given to the students
 def inorder_traversal(tree: Node, level:int=0):
     if level == 0:
         print('in order traversal')
-    if False: # TODO
-        # TODO
-        return
+    if tree != None:
+        inorder_traversal(tree.left, level+1)
+        print(f' level = {level:^3d} : value = {tree.value}')
+        inorder_traversal(tree.right, level+1)
 
 
-# NOT given to the students
 def postorder_traversal(tree: Node, level:int=0):
     if level == 0:
         print('post order traversal')
-    if False: # TODO
-        # TODO
-        return
+    if tree != None:
+        postorder_traversal(tree.left, level+1)
+        postorder_traversal(tree.right, level+1)
+        print(f' level = {level:^3d} : value = {tree.value}')
 
 
-# NOT given to the students
 def search(root: Node, value: int) -> Node:
     # base cases
-    if False: # TODO
-        return None # TODO
-    elif False: # TODO
-        return None # TODO
-    # recursive step
+    if root.value == value:
+        return root #Found it!
+    if value < root.value and root.left is not None: #If smaller, go left
+        return search(root.left, value)
+    elif value > root.value and root.right is not None: #If bigger, go right
+        return search(root.right, value)
     else:
-        if False: # TODO
-            return None # TODO
-        else:
-            return None # TODO
+        return None #Didn't find the value
 
 
 # NOT given to students
 def insert(root: Node, value: int) -> Node:
-    if False: # TODO
-        return None # TODO
+    if root is None: #If empty tree
+        root = Node(value, None, None)
+    elif value < root.value and root.left is None: #If value is smaller and left slot is empty, make new node
+        root.left = Node(value, None, None)
+    elif value < root.value and root.left is not None: #If value is smaller and left slot not empty, try to insert farther down the tree
+        root.left = insert(root.left, value)
+    elif value > root.value and root.right is None:
+        root.right = Node(value, None, None)
     else:
-        if False: # TODO
-            return None # TODO
-        elif False: # TODO
-            root.right = None # TODO
-        else:
-            root.left = None # TODO
+        root.right = insert(root.right, value)
     return root
 
 
-# given to students
 def remove(root: Node, value: int) -> Node:
     def getMin(v: Node):
         current = v
